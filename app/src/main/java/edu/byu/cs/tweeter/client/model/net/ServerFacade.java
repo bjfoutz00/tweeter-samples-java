@@ -7,6 +7,7 @@ import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.net.request.LoginRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.net.response.LoginResponse;
+import main.java.edu.byu.cs.tweeter.client.model.net.ClientCommunicator;
 
 /**
  * Acts as a Facade to the Tweeter server. All network requests to the server should go through
