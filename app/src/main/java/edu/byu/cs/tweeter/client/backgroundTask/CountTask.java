@@ -5,10 +5,11 @@ import android.os.Handler;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.response.CountResponse;
 
 public abstract class CountTask extends AuthenticatedTask {
     public static final String COUNT_KEY = "count";
-    private int count = 20;
+    private int count;
 
     /**
      * The user whose follower count is being retrieved.
@@ -22,8 +23,15 @@ public abstract class CountTask extends AuthenticatedTask {
     }
 
     @Override
-    protected void runTask() {
-        count = runCountTask();
+    protected void runTask() throws Exception {
+        CountResponse response = runCountTask();
+
+        if (response.isSuccess()) {
+            count = response.getCount();
+            sendSuccessMessage();
+        } else {
+            sendFailedMessage(response.getMessage());
+        }
     }
 
     @Override
@@ -31,5 +39,13 @@ public abstract class CountTask extends AuthenticatedTask {
         msgBundle.putInt(COUNT_KEY, count);
     }
 
-    protected abstract int runCountTask();
+    protected abstract CountResponse runCountTask() throws Exception;
+
+    public int getCount() {
+        return count;
+    }
+
+    public User getTargetUser() {
+        return targetUser;
+    }
 }

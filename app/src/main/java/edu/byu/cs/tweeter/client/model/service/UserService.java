@@ -13,6 +13,7 @@ import edu.byu.cs.tweeter.client.backgroundTask.observer.SimpleTaskObserver;
 import edu.byu.cs.tweeter.client.cache.Cache;
 
 public class UserService {
+    public static final String URL_PATH = "TODO: insert URL_PATH";
     public void getUser(String userAlias, GetUserTaskObserver observer) {
         GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(),
                 userAlias, new GetUserHandler(observer));

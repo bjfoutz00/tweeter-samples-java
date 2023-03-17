@@ -71,11 +71,11 @@ public class GetFollowingTask extends BackgroundTask {
             String lastFolloweeAlias = lastFollowee == null ? null : lastFollowee.getAlias();
 
             FollowingRequest request = new FollowingRequest(authToken, targetUserAlias, limit, lastFolloweeAlias);
-            FollowingResponse response = getServerFacade().getFollowees(request, FollowService.URL_PATH);
+            FollowingResponse response = getServerFacade().getFollowing(request, FollowService.URL_PATH);
 
             if (response.isSuccess()) {
                 this.followees = response.getFollowees();
-                this.hasMorePages = response.getHasMorePages();
+                this.hasMorePages = response.hasMorePages();
                 sendSuccessMessage();
             } else {
                 sendFailedMessage(response.getMessage());

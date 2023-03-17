@@ -4,8 +4,11 @@ import android.os.Handler;
 
 import java.util.List;
 
+import edu.byu.cs.tweeter.client.model.service.FollowService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.request.PagedRequest;
+import edu.byu.cs.tweeter.model.net.response.PagedResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
 /**
@@ -21,8 +24,9 @@ public class GetFollowingTask extends PagedTask<User> {
     }
 
     @Override
-    protected Pair<List<User>, Boolean> getItems() {
-        return getFakeData().getPageOfUsers((User) getLastItem(), getLimit(), getTargetUser());
+    protected PagedResponse<User> getItems() throws Exception {
+        PagedRequest<User> request = new PagedRequest<>(authToken, getTargetUser().getAlias(), getLimit(), getLastItem());
+        return getServerFacade().getFollowing(request, FollowService.URL_PATH);
     }
 
 }

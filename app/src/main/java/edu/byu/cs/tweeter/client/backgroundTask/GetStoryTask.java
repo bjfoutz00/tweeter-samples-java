@@ -4,9 +4,12 @@ import android.os.Handler;
 
 import java.util.List;
 
+import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.request.PagedRequest;
+import edu.byu.cs.tweeter.model.net.response.PagedResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
 /**
@@ -21,7 +24,8 @@ public class GetStoryTask extends PagedTask<Status> {
     }
 
     @Override
-    protected Pair<List<Status>, Boolean> getItems() {
-        return getFakeData().getPageOfStatus(getLastItem(), getLimit());
+    protected PagedResponse<Status> getItems() throws Exception {
+        PagedRequest<Status> request = new PagedRequest<>(authToken, getTargetUser().getAlias(), getLimit(), getLastItem());
+        return getServerFacade().getStory(request, StatusService.URL_PATH);
     }
 }

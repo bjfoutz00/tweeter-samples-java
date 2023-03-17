@@ -30,7 +30,7 @@ public class FollowingResponse extends PagedResponse {
      * @param hasMorePages an indicator of whether more data is available for the request.
      */
     public FollowingResponse(List<User> followees, boolean hasMorePages) {
-        super(true, hasMorePages);
+        super(true, followees, hasMorePages);
         this.followees = followees;
     }
 

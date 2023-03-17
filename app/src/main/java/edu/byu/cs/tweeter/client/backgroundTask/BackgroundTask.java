@@ -7,6 +7,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import edu.byu.cs.tweeter.client.model.net.ServerFacade;
+import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.util.FakeData;
 
 public abstract class BackgroundTask implements Runnable {
@@ -19,6 +21,7 @@ public abstract class BackgroundTask implements Runnable {
      * Message handler that will receive task results.
      */
     protected Handler messageHandler;
+    private ServerFacade serverFacade;
 
     public BackgroundTask(Handler messageHandler) {
         this.messageHandler = messageHandler;
@@ -28,9 +31,8 @@ public abstract class BackgroundTask implements Runnable {
     public void run() {
         try {
             runTask();
-            sendSuccessMessage();
-
         } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex);
             sendExceptionMessage(ex);
         }
     }
@@ -45,13 +47,13 @@ public abstract class BackgroundTask implements Runnable {
     }
 
 
-    private void sendFailedMessage(String message) {
+    protected void sendFailedMessage(String message) {
         Bundle msgBundle = createBundle(false);
         msgBundle.putString(MESSAGE_KEY, message);
         sendMessage(msgBundle);
     }
 
-    private void sendExceptionMessage(Exception exception) {
+    protected void sendExceptionMessage(Exception exception) {
         Bundle msgBundle = createBundle(false);
         msgBundle.putSerializable(EXCEPTION_KEY, exception);
         sendMessage(msgBundle);
@@ -68,6 +70,20 @@ public abstract class BackgroundTask implements Runnable {
         Message msg = Message.obtain();
         msg.setData(msgBundle);
         messageHandler.sendMessage(msg);
+    }
+
+    /**
+     * Returns an instance of {@link ServerFacade}. Allows mocking of the ServerFacade class for
+     * testing purposes. All usages of ServerFacade should get their instance from this method to
+     * allow for proper mocking.
+     *
+     * @return the instance.
+     */
+    protected ServerFacade getServerFacade() {
+        if (serverFacade == null) {
+            serverFacade = new ServerFacade();
+        }
+        return serverFacade;
     }
 
     protected FakeData getFakeData() {

@@ -9,7 +9,7 @@ import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.LoginRequest;
-import edu.byu.cs.tweeter.model.net.response.LoginResponse;
+import edu.byu.cs.tweeter.model.net.response.AuthenticationResponse;
 
 /**
  * Background task that logs in a user (i.e., starts a session).
@@ -53,7 +53,7 @@ public class LoginTask extends BackgroundTask {
     protected void runTask() {
         try {
             LoginRequest request = new LoginRequest(username, password);
-            LoginResponse response = getServerFacade().login(request, UserService.URL_PATH);
+            AuthenticationResponse response = getServerFacade().login(request, UserService.URL_PATH);
 
             if (response.isSuccess()) {
                 this.user = response.getUser();

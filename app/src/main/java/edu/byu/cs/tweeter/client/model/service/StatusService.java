@@ -13,6 +13,8 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class StatusService {
+    public static final String URL_PATH = "TODO: insert URL_PATH";
+
     public void getFeedStatuses(User user, int pageSize, Status lastStatus, PagedTaskObserver<Status> observer) {
         GetFeedTask getFeedTask = new GetFeedTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, pageSize, lastStatus, new PagedTaskHandler<>(observer));

@@ -1,24 +1,52 @@
 package edu.byu.cs.tweeter.server.service;
 
+import java.lang.annotation.Target;
+
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.LoginRequest;
-import edu.byu.cs.tweeter.model.net.response.LoginResponse;
+import edu.byu.cs.tweeter.model.net.request.RegisterRequest;
+import edu.byu.cs.tweeter.model.net.request.SessionRequest;
+import edu.byu.cs.tweeter.model.net.request.TargetUserRequest;
+import edu.byu.cs.tweeter.model.net.response.AuthenticationResponse;
+
+import edu.byu.cs.tweeter.model.net.response.Response;
+import edu.byu.cs.tweeter.model.net.response.UserResponse;
 import edu.byu.cs.tweeter.util.FakeData;
 
 public class UserService {
 
-    public LoginResponse login(LoginRequest request) {
-        if(request.getUsername() == null){
+    public AuthenticationResponse login(LoginRequest request) {
+        if (request.getUsername() == null){
             throw new RuntimeException("[Bad Request] Missing a username");
-        } else if(request.getPassword() == null) {
+        } else if (request.getPassword() == null) {
             throw new RuntimeException("[Bad Request] Missing a password");
         }
 
         // TODO: Generates dummy data. Replace with a real implementation.
         User user = getDummyUser();
         AuthToken authToken = getDummyAuthToken();
-        return new LoginResponse(user, authToken);
+        return new AuthenticationResponse(user, authToken);
+    }
+
+    public AuthenticationResponse register(RegisterRequest request) {
+        RequestValidator.<RegisterRequest>validateRequest(request);
+
+        User user = getDummyUser();
+        AuthToken authToken = getDummyAuthToken();
+        return new AuthenticationResponse(user, authToken);
+    }
+
+    public Response logout(SessionRequest request) {
+        RequestValidator.<SessionRequest>validateRequest(request);
+        // todo: need to do anything else?
+        return new Response(true);
+    }
+
+    public UserResponse getUser(TargetUserRequest request) {
+        RequestValidator.<TargetUserRequest>validateRequest(request);
+        User user = getFakeData().findUserByAlias(request.getTargetUserAlias());
+        return new UserResponse(true, user);
     }
 
     /**

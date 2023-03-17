@@ -3,8 +3,14 @@ package edu.byu.cs.tweeter.client.backgroundTask;
 import android.os.Bundle;
 import android.os.Handler;
 
+import java.io.IOException;
+
+import edu.byu.cs.tweeter.client.model.service.StatusService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.Status;
+import edu.byu.cs.tweeter.model.net.TweeterRemoteException;
+import edu.byu.cs.tweeter.model.net.request.PostStatusRequest;
+import edu.byu.cs.tweeter.model.net.response.Response;
 
 /**
  * Background task that posts a new status sent by a user.
@@ -23,7 +29,16 @@ public class PostStatusTask extends AuthenticatedTask {
     }
 
     @Override
-    protected void runTask() {}
+    protected void runTask() throws Exception {
+        PostStatusRequest request = new PostStatusRequest(authToken, status);
+        Response response = getServerFacade().postStatus(request, StatusService.URL_PATH);
+        
+        if (response.isSuccess()) {
+            sendSuccessMessage();
+        } else {
+            sendFailedMessage(response.getMessage());
+        }
+    }
 
     @Override
     protected void addBundleData(Bundle msgBundle) {}

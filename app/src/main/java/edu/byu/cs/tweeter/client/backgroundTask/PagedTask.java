@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.response.PagedResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
 public abstract class PagedTask<T> extends AuthenticatedTask {
@@ -50,10 +51,16 @@ public abstract class PagedTask<T> extends AuthenticatedTask {
     }
 
     @Override
-    protected void runTask() {
-        Pair<List<T>, Boolean> pageOfUsers = getItems();
-        items = pageOfUsers.getFirst();
-        hasMorePages = pageOfUsers.getSecond();
+    protected void runTask() throws Exception {
+        PagedResponse<T> response = getItems();
+
+        if (response.isSuccess()) {
+            items = response.getItems();
+            hasMorePages = response.hasMorePages();
+            sendSuccessMessage();
+        } else {
+            sendFailedMessage(response.getMessage());
+        }
     }
 
     @Override
@@ -62,5 +69,5 @@ public abstract class PagedTask<T> extends AuthenticatedTask {
         msgBundle.putBoolean(MORE_PAGES_KEY, hasMorePages);
     }
 
-    protected abstract Pair<List<T>, Boolean> getItems();
+    protected abstract PagedResponse<T> getItems() throws Exception;
 }

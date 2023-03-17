@@ -1,8 +1,20 @@
 package edu.byu.cs.tweeter.server.service;
 
+import java.util.List;
+
+import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.model.net.request.PagedRequest;
+import edu.byu.cs.tweeter.model.net.request.TargetUserRequest;
+import edu.byu.cs.tweeter.model.net.response.CountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
+import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
+import edu.byu.cs.tweeter.model.net.response.PagedResponse;
+import edu.byu.cs.tweeter.model.net.response.Response;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
+import edu.byu.cs.tweeter.server.lambda.IsFollowerHandler;
+import edu.byu.cs.tweeter.util.FakeData;
+import edu.byu.cs.tweeter.util.Pair;
 
 /**
  * Contains the business logic for getting the users a user is following.
@@ -24,8 +36,40 @@ public class FollowService {
         } else if(request.getLimit() <= 0) {
             throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
         }
-        return getFollowingDAO().getFollowees(request);
+        return getFollowingDAO().getFollowing(request);
     }
+
+    public Response follow(TargetUserRequest request) {
+        return new Response(true);
+    }
+
+    public Response unfollow(TargetUserRequest request) {
+        return new Response(true);
+    }
+
+    public IsFollowerResponse isFollower(TargetUserRequest request) {
+        return new IsFollowerResponse(true, true);
+        // todo: make random for is follower?
+    }
+
+    public PagedResponse<User> getFollowers(PagedRequest<User> request) {
+        Pair<List<User>, Boolean> page = FakeData.getInstance().getPageOfUsers(request.getLastItem(), request.getPageSize(), request.getLastItem());
+        return new PagedResponse<>(true, page.getFirst(), page.getSecond());
+    }
+
+    public PagedResponse<User> getFollowing(PagedRequest<User> request) {
+        Pair<List<User>, Boolean> page = FakeData.getInstance().getPageOfUsers(request.getLastItem(), request.getPageSize(), request.getLastItem());
+        return new PagedResponse<>(true, page.getFirst(), page.getSecond());
+    }
+
+    public CountResponse getFollowersCount(TargetUserRequest request) {
+        return new CountResponse(true, 20);
+    }
+
+    public CountResponse getFollowingCount(TargetUserRequest request) {
+        return new CountResponse(true, 20);
+    }
+
 
     /**
      * Returns an instance of {@link FollowDAO}. Allows mocking of the FollowDAO class
