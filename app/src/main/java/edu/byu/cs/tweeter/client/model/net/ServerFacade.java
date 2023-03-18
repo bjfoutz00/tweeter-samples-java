@@ -14,8 +14,9 @@ import edu.byu.cs.tweeter.model.net.request.TargetUserRequest;
 import edu.byu.cs.tweeter.model.net.response.CountResponse;
 import edu.byu.cs.tweeter.model.net.response.AuthenticationResponse;
 import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
-import edu.byu.cs.tweeter.model.net.response.PagedResponse;
 import edu.byu.cs.tweeter.model.net.response.Response;
+import edu.byu.cs.tweeter.model.net.response.StatusPagedResponse;
+import edu.byu.cs.tweeter.model.net.response.UserPagedResponse;
 import edu.byu.cs.tweeter.model.net.response.UserResponse;
 
 /**
@@ -58,23 +59,23 @@ public class ServerFacade {
         return clientCommunicator.doPost(urlPath, request, null, IsFollowerResponse.class);
     }
 
-    public PagedResponse<User> getFollowers(PagedRequest<User> request, String urlPath) throws IOException, TweeterRemoteException {
-        return clientCommunicator.doPost(urlPath, request, null, PagedResponse.class);
+    public UserPagedResponse getFollowers(PagedRequest<User> request, String urlPath) throws IOException, TweeterRemoteException {
+        return clientCommunicator.doPost(urlPath, request, null, UserPagedResponse.class);
     }
 
-    public PagedResponse<User> getFollowing(PagedRequest<User> request, String urlPath)
+    public UserPagedResponse getFollowing(PagedRequest<User> request, String urlPath)
             throws IOException, TweeterRemoteException {
-        return clientCommunicator.doPost(urlPath, request, null, PagedResponse.class);
+        return clientCommunicator.doPost(urlPath, request, null, UserPagedResponse.class);
     }
 
-    public PagedResponse<Status> getFeed(PagedRequest<Status> request, String urlPath)
+    public StatusPagedResponse getFeed(PagedRequest<Status> request, String urlPath)
             throws IOException, TweeterRemoteException {
-        return clientCommunicator.doPost(urlPath, request, null, PagedResponse.class);
+        return clientCommunicator.doPost(urlPath, request, null, StatusPagedResponse.class);
     }
 
-    public PagedResponse<Status> getStory(PagedRequest<Status> request, String urlPath)
+    public StatusPagedResponse getStory(PagedRequest<Status> request, String urlPath)
             throws IOException, TweeterRemoteException {
-        return clientCommunicator.doPost(urlPath, request, null, PagedResponse.class);
+        return clientCommunicator.doPost(urlPath, request, null, StatusPagedResponse.class);
     }
 
     public UserResponse getUser(TargetUserRequest request, String urlPath) throws IOException, TweeterRemoteException {

@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import edu.byu.cs.tweeter.client.backgroundTask.observer.PagedTaskObserver;
 import edu.byu.cs.tweeter.client.model.net.ServerFacade;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -51,12 +52,12 @@ public class FollowServiceTest {
     }
 
     /**
-     * A {@link FollowService.GetFollowingObserver} implementation that can be used to get the values
+     * An observer implementation that can be used to get the values
      * eventually returned by an asynchronous call on the {@link FollowService}. Counts down
      * on the countDownLatch so tests can wait for the background thread to call a method on the
      * observer.
      */
-    private class FollowServiceObserver implements FollowService.GetFollowingObserver {
+    private class FollowServiceObserver implements PagedTaskObserver<User> {
 
         private boolean success;
         private String message;
@@ -73,6 +74,11 @@ public class FollowServiceTest {
             this.exception = null;
 
             countDownLatch.countDown();
+        }
+
+        @Override
+        public void displayMessage(String message) {
+
         }
 
         @Override
@@ -124,7 +130,7 @@ public class FollowServiceTest {
      */
     @Test
     public void testGetFollowees_validRequest_correctResponse() throws InterruptedException {
-        followServiceSpy.getFollowees(currentAuthToken, currentUser, 3, null, observer);
+        followServiceSpy.getFollowees(currentUser, 3, null, observer);
         awaitCountDownLatch();
 
         List<User> expectedFollowees = FakeData.getInstance().getFakeUsers().subList(0, 3);
@@ -141,7 +147,7 @@ public class FollowServiceTest {
      */
     @Test
     public void testGetFollowees_validRequest_loadsProfileImages() throws InterruptedException {
-        followServiceSpy.getFollowees(currentAuthToken, currentUser, 3, null, observer);
+        followServiceSpy.getFollowees(currentUser, 3, null, observer);
         awaitCountDownLatch();
 
         List<User> followees = observer.getFollowees();
@@ -154,7 +160,7 @@ public class FollowServiceTest {
      */
     @Test
     public void testGetFollowees_invalidRequest_returnsNoFollowees() throws InterruptedException {
-        followServiceSpy.getFollowees(null, null, 0, null, observer);
+        followServiceSpy.getFollowees( null, 0, null, observer);
         awaitCountDownLatch();
 
         Assertions.assertFalse(observer.isSuccess());

@@ -47,7 +47,7 @@ public class PostStatusTest {
         List<String> urls = List.of("https://byu.edu");
         List<String> mentions = List.of("@bob");
 
-        status = new Status(post, Cache.getInstance().getCurrUser(), dateTime, urls, mentions);
+        status = new Status(post, Cache.getInstance().getCurrUser(), System.currentTimeMillis(), urls, mentions);
         observer = new MainStatusObserver(mockView);
 
         doReturn(mockStatusService).when(spyPresenter).getStatusService();

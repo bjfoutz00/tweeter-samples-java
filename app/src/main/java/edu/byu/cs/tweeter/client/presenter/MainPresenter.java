@@ -79,7 +79,7 @@ public class MainPresenter {
     public void postStatus(String post) {
         try {
             view.displayMessage("Posting Status...");
-            Status newStatus = new Status(post, Cache.getInstance().getCurrUser(), getFormattedDateTime(), parseURLs(post), parseMentions(post));
+            Status newStatus = new Status(post, Cache.getInstance().getCurrUser(), System.currentTimeMillis(), parseURLs(post), parseMentions(post));
             getStatusService().postStatus(newStatus, getStatusObserver());
 
         } catch (Exception ex) {

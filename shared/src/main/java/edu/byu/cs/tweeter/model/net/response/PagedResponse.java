@@ -7,8 +7,8 @@ import java.util.List;
  */
 public class PagedResponse<T> extends Response {
 
-    private List<T> items;
-    private final boolean hasMorePages;
+    public List<T> items;
+    public boolean hasMorePages;
 
     public PagedResponse(boolean success, List<T> items, boolean hasMorePages) {
         super(success);
