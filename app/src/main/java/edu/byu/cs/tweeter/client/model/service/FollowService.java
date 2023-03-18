@@ -24,8 +24,6 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService {
 
-    public static final String URL_PATH = "TODO: insert URL_PATH";
-
     public void getFollowees(User user, int pageSize, User lastFollowee, PagedTaskObserver<User> observer) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, pageSize, lastFollowee, new PagedTaskHandler<>(observer));

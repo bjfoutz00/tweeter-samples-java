@@ -17,6 +17,7 @@ import edu.byu.cs.tweeter.util.Pair;
  */
 public class GetFeedTask extends PagedTask<Status> {
     private static final String LOG_TAG = "GetFeedTask";
+    private static final String URL_PATH = "/getFeed";
 
     public GetFeedTask(AuthToken authToken, User targetUser, int limit, Status lastStatus,
                        Handler messageHandler) {
@@ -26,7 +27,7 @@ public class GetFeedTask extends PagedTask<Status> {
     @Override
     protected PagedResponse<Status> getItems() throws Exception {
         PagedRequest<Status> request = new PagedRequest<>(authToken, getTargetUser().getAlias(), getLimit(), getLastItem());
-        return getServerFacade().getFeed(request, StatusService.URL_PATH);
+        return getServerFacade().getFeed(request, URL_PATH);
     }
 
 }

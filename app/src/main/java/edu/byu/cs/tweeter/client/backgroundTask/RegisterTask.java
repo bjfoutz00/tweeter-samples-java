@@ -13,6 +13,7 @@ import edu.byu.cs.tweeter.model.net.response.AuthenticationResponse;
  */
 public class RegisterTask extends AuthenticationTask {
     private static final String LOG_TAG = "RegisterTask";
+    private static final String URL_PATH = "/register";
 
     /**
      * The user's first name.
@@ -38,6 +39,6 @@ public class RegisterTask extends AuthenticationTask {
     @Override
     protected AuthenticationResponse doAuthentication() throws Exception {
         RegisterRequest request = new RegisterRequest(username, password, firstName, lastName, image);
-        return getServerFacade().register(request, UserService.URL_PATH);
+        return getServerFacade().register(request, URL_PATH);
     }
 }

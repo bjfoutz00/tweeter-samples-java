@@ -40,33 +40,40 @@ public class FollowService {
     }
 
     public Response follow(TargetUserRequest request) {
+        RequestValidator.validateTargetUserRequest(request);
         return new Response(true);
     }
 
     public Response unfollow(TargetUserRequest request) {
+        RequestValidator.validateTargetUserRequest(request);
         return new Response(true);
     }
 
     public IsFollowerResponse isFollower(TargetUserRequest request) {
+        RequestValidator.validateTargetUserRequest(request);
         return new IsFollowerResponse(true, true);
         // todo: make random for is follower?
     }
 
     public PagedResponse<User> getFollowers(PagedRequest<User> request) {
+        RequestValidator.validatePagedRequest(request);
         Pair<List<User>, Boolean> page = FakeData.getInstance().getPageOfUsers(request.getLastItem(), request.getPageSize(), request.getLastItem());
         return new PagedResponse<>(true, page.getFirst(), page.getSecond());
     }
 
     public PagedResponse<User> getFollowing(PagedRequest<User> request) {
+        RequestValidator.validatePagedRequest(request);
         Pair<List<User>, Boolean> page = FakeData.getInstance().getPageOfUsers(request.getLastItem(), request.getPageSize(), request.getLastItem());
         return new PagedResponse<>(true, page.getFirst(), page.getSecond());
     }
 
     public CountResponse getFollowersCount(TargetUserRequest request) {
+        RequestValidator.validateTargetUserRequest(request);
         return new CountResponse(true, 20);
     }
 
     public CountResponse getFollowingCount(TargetUserRequest request) {
+        RequestValidator.validateTargetUserRequest(request);
         return new CountResponse(true, 20);
     }
 

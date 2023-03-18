@@ -1,7 +1,5 @@
 package edu.byu.cs.tweeter.server.service;
 
-import java.lang.annotation.Target;
-
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.LoginRequest;
@@ -17,11 +15,7 @@ import edu.byu.cs.tweeter.util.FakeData;
 public class UserService {
 
     public AuthenticationResponse login(LoginRequest request) {
-        if (request.getUsername() == null){
-            throw new RuntimeException("[Bad Request] Missing a username");
-        } else if (request.getPassword() == null) {
-            throw new RuntimeException("[Bad Request] Missing a password");
-        }
+        RequestValidator.validateLoginRequest(request);
 
         // TODO: Generates dummy data. Replace with a real implementation.
         User user = getDummyUser();
@@ -30,7 +24,7 @@ public class UserService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
-        RequestValidator.<RegisterRequest>validateRequest(request);
+        RequestValidator.validateRegisterRequest(request);
 
         User user = getDummyUser();
         AuthToken authToken = getDummyAuthToken();
@@ -38,14 +32,14 @@ public class UserService {
     }
 
     public Response logout(SessionRequest request) {
-        RequestValidator.<SessionRequest>validateRequest(request);
+        RequestValidator.validateSessionRequest(request);
         // todo: need to do anything else?
         return new Response(true);
     }
 
     public UserResponse getUser(TargetUserRequest request) {
-        RequestValidator.<TargetUserRequest>validateRequest(request);
-        User user = getFakeData().findUserByAlias(request.getTargetUserAlias());
+        RequestValidator.validateTargetUserRequest(request);
+        User user = getFakeData().findUserByAlias(request.getUserAlias());
         return new UserResponse(true, user);
     }
 

@@ -15,16 +15,19 @@ import edu.byu.cs.tweeter.util.Pair;
 public class StatusService {
 
     public PagedResponse<Status> getFeed(PagedRequest<Status> request) {
+        RequestValidator.validatePagedRequest(request);
         Pair<List<Status>, Boolean> page = FakeData.getInstance().getPageOfStatus(request.getLastItem(), request.getPageSize());
         return new PagedResponse<>(true, page.getFirst(), page.getSecond());
     }
 
     public PagedResponse<Status> getStory(PagedRequest<Status> request) {
+        RequestValidator.validatePagedRequest(request);
         Pair<List<Status>, Boolean> page = FakeData.getInstance().getPageOfStatus(request.getLastItem(), request.getPageSize());
         return new PagedResponse<>(true, page.getFirst(), page.getSecond());
     }
 
     public Response postStatus(PostStatusRequest request) {
+        RequestValidator.validatePostStatusRequest(request);
         return new Response(true);
     }
 

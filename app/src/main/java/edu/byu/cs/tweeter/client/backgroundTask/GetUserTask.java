@@ -15,6 +15,8 @@ import edu.byu.cs.tweeter.model.net.response.UserResponse;
 public class GetUserTask extends AuthenticatedTask {
     private static final String LOG_TAG = "GetUserTask";
     public static final String USER_KEY = "user";
+    private static final String URL_PATH = "/getUser";
+
     /**
      * Alias (or handle) for user whose profile is being retrieved.
      */
@@ -29,7 +31,7 @@ public class GetUserTask extends AuthenticatedTask {
     @Override
     protected void runTask() throws Exception {
         TargetUserRequest request = new TargetUserRequest(authToken, alias);
-        UserResponse response = getServerFacade().getUser(request, UserService.URL_PATH);
+        UserResponse response = getServerFacade().getUser(request, URL_PATH);
 
         if (response.isSuccess()) {
             user = response.getUser();

@@ -15,6 +15,7 @@ import edu.byu.cs.tweeter.model.net.response.Response;
  */
 public class FollowTask extends AuthenticatedTask {
     private static final String LOG_TAG = "FollowTask";
+    private static final String URL_PATH = "/follow";
     /**
      * The user that is being followed.
      */
@@ -28,7 +29,7 @@ public class FollowTask extends AuthenticatedTask {
     @Override
     protected void runTask() throws Exception {
         TargetUserRequest request = new TargetUserRequest(authToken, followee.getAlias());
-        Response response = getServerFacade().follow(request, FollowService.URL_PATH);
+        Response response = getServerFacade().follow(request, URL_PATH);
 
         if (response.isSuccess()) {
             sendSuccessMessage();

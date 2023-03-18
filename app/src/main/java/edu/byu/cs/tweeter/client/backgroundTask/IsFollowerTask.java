@@ -15,6 +15,8 @@ import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
 public class IsFollowerTask extends AuthenticatedTask {
     private static final String LOG_TAG = "IsFollowerTask";
     public static final String IS_FOLLOWER_KEY = "is-follower";
+    private static final String URL_PATH = "/isFollower";
+
     /**
      * The alleged follower.
      */
@@ -34,7 +36,7 @@ public class IsFollowerTask extends AuthenticatedTask {
     @Override
     protected void runTask() throws Exception {
         TargetUserRequest request = new TargetUserRequest(authToken, followee.getAlias());
-        IsFollowerResponse response = getServerFacade().getIsFollowing(request, FollowService.URL_PATH);
+        IsFollowerResponse response = getServerFacade().getIsFollowing(request, URL_PATH);
 
         if (response.isSuccess()) {
             isFollower = response.isFollower();

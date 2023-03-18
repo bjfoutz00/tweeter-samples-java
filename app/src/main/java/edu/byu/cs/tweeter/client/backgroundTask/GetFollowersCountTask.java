@@ -13,6 +13,7 @@ import edu.byu.cs.tweeter.model.net.response.CountResponse;
  */
 public class GetFollowersCountTask extends CountTask {
     private static final String LOG_TAG = "GetFollowersCountTask";
+    private static final String URL_PATH = "/getFollowersCount";
 
     public GetFollowersCountTask(AuthToken authToken, User targetUser, Handler messageHandler) {
         super(messageHandler, authToken, targetUser);
@@ -21,6 +22,6 @@ public class GetFollowersCountTask extends CountTask {
     @Override
     protected CountResponse runCountTask() throws Exception {
         TargetUserRequest request = new TargetUserRequest(authToken, getTargetUser().getAlias());
-        return getServerFacade().getFollowersCount(request, FollowService.URL_PATH);
+        return getServerFacade().getFollowersCount(request, URL_PATH);
     }
 }

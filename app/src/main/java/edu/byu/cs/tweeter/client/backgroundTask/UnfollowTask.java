@@ -14,6 +14,7 @@ import edu.byu.cs.tweeter.model.net.response.Response;
  */
 public class UnfollowTask extends AuthenticatedTask {
     private static final String LOG_TAG = "UnfollowTask";
+    private static final String URL_PATH = "/unfollow";
     /**
      * The user that is being followed.
      */
@@ -30,7 +31,7 @@ public class UnfollowTask extends AuthenticatedTask {
     @Override
     protected void runTask() throws Exception {
         TargetUserRequest request = new TargetUserRequest(authToken, followee.getAlias());
-        Response response = getServerFacade().unfollow(request, FollowService.URL_PATH);
+        Response response = getServerFacade().unfollow(request, URL_PATH);
 
         if (response.isSuccess()) {
             sendSuccessMessage();

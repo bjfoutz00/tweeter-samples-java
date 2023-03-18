@@ -14,6 +14,7 @@ import edu.byu.cs.tweeter.model.net.response.Response;
  */
 public class LogoutTask extends AuthenticatedTask {
     private static final String LOG_TAG = "LogoutTask";
+    private static final String URL_PATH = "/logout";
 
     public LogoutTask(AuthToken authToken, Handler messageHandler) {
         super(messageHandler, authToken);
@@ -22,7 +23,7 @@ public class LogoutTask extends AuthenticatedTask {
     @Override
     protected void runTask() throws Exception {
         SessionRequest request = new SessionRequest(authToken);
-        Response response = getServerFacade().logout(request, UserService.URL_PATH);
+        Response response = getServerFacade().logout(request, URL_PATH);
 
         if (response.isSuccess()) {
             sendSuccessMessage();

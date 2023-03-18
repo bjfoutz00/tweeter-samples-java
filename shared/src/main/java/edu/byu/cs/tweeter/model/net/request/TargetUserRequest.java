@@ -7,20 +7,20 @@ import edu.byu.cs.tweeter.model.domain.AuthToken;
  */
 public class TargetUserRequest extends SessionRequest {
     // user to follow/unfollow/
-    private String targetUserAlias;
+    private String userAlias;
 
     private TargetUserRequest() {}
 
-    public TargetUserRequest(AuthToken authToken, String targetUserAlias) {
+    public TargetUserRequest(AuthToken authToken, String userAlias) {
         super(authToken);
-        this.targetUserAlias = targetUserAlias;
+        this.userAlias = userAlias;
     }
 
-    public String getTargetUserAlias() {
-        return targetUserAlias;
+    public String getUserAlias() {
+        return userAlias;
     }
 
-    public void setTargetUserAlias(String targetUserAlias) {
-        this.targetUserAlias = targetUserAlias;
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
     }
 }

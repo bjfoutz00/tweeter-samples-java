@@ -17,6 +17,9 @@ import edu.byu.cs.tweeter.model.net.response.Response;
  */
 public class PostStatusTask extends AuthenticatedTask {
     private static final String LOG_TAG = "PostStatusTask";
+    private static final String URL_PATH = "/postStatus";
+
+
     /**
      * The new status being sent. Contains all properties of the status,
      * including the identity of the user sending the status.
@@ -31,7 +34,7 @@ public class PostStatusTask extends AuthenticatedTask {
     @Override
     protected void runTask() throws Exception {
         PostStatusRequest request = new PostStatusRequest(authToken, status);
-        Response response = getServerFacade().postStatus(request, StatusService.URL_PATH);
+        Response response = getServerFacade().postStatus(request, URL_PATH);
         
         if (response.isSuccess()) {
             sendSuccessMessage();

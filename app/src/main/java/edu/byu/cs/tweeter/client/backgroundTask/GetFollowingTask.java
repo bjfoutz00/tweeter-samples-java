@@ -16,6 +16,7 @@ import edu.byu.cs.tweeter.util.Pair;
  */
 public class GetFollowingTask extends PagedTask<User> {
     private static final String LOG_TAG = "GetFollowingTask";
+    private static final String URL_PATH = "/getFollowing";
 
     public GetFollowingTask(AuthToken authToken, User targetUser, int limit, User lastFollowee,
                             Handler messageHandler) {
@@ -26,7 +27,7 @@ public class GetFollowingTask extends PagedTask<User> {
     @Override
     protected PagedResponse<User> getItems() throws Exception {
         PagedRequest<User> request = new PagedRequest<>(authToken, getTargetUser().getAlias(), getLimit(), getLastItem());
-        return getServerFacade().getFollowing(request, FollowService.URL_PATH);
+        return getServerFacade().getFollowing(request, URL_PATH);
     }
 
 }
